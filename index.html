@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title data-i18n="page_title">69牛牛 - 玩法说明</title>
+    <meta name="description" content="69牛牛 - Telegram 红包多人对战游戏玩法说明">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Extremely clean typography: Inter only, multiple weights for contrast -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Global Immersive Background -->
+    <div class="global-bg-container">
+        <img src="images/mascot.jpg" alt="Background" class="global-bg-img" id="mascot-img">
+        <div class="global-bg-overlay"></div>
+    </div>
+    
+    <!-- Particle Canvas for depth -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <div class="app-container">
+        
+        <!-- Premium Floating Header -->
+        <header class="top-nav">
+            <button class="nav-btn back-btn" id="back-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <span data-i18n="back_btn">返回</span>
+            </button>
+            <div class="header-actions">
+                <div class="lang-switcher">
+                    <button class="nav-btn lang-btn" id="lang-btn">
+                        <span id="current-lang-icon">🇨🇳</span>
+                        <span id="current-lang-text">简体中文</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="lang-dropdown" id="lang-dropdown">
+                        <button class="lang-option" data-lang="zh-CN"><span>🇨🇳</span>简体中文</button>
+                        <button class="lang-option" data-lang="zh-TW"><span>🇹🇼</span>繁體中文</button>
+                        <button class="lang-option" data-lang="en"><span>🇬🇧</span>English</button>
+                        <button class="lang-option" data-lang="ms"><span>🇲🇾</span>Bahasa Melayu</button>
+                        <button class="lang-option" data-lang="id"><span>🇮🇩</span>Bahasa Indonesia</button>
+                        <button class="lang-option" data-lang="vi"><span>🇻🇳</span>Tiếng Việt</button>
+                        <button class="lang-option" data-lang="th"><span>🇹🇭</span>ภาษาไทย</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Area (No background image here, just floating text over global bg) -->
+        <section class="hero-section" id="hero-section">
+            <div class="hero-content">
+                <span class="badge-premium shimmer-text" data-i18n="badge_intro">玩法介绍</span>
+                <h1 class="hero-title shimmer-text">69 牛牛</h1>
+                <p class="hero-desc" data-i18n="game_desc">抢红包比点数，抢庄 18 秒 · 下注 25 秒</p>
+            </div>
+        </section>
+
+        <!-- Quick Guide -->
+        <section class="content-section" id="quick-guide">
+            <div class="section-header">
+                <h3 data-i18n="sec1_title">一局怎么玩</h3>
+                <span class="section-sub" data-i18n="sec1_sub">三步就懂</span>
+            </div>
+            <div class="guide-list">
+                <div class="glass-card stagger-item stagger-left" id="guide-1">
+                    <div class="step-num gold-text">01</div>
+                    <div class="step-body">
+                        <h4 data-i18n="guide1_title">上庄，或者下注</h4>
+                        <p data-i18n="guide1_desc">写数字抢庄，出价最高的当庄家；加价至少多 100。不当庄就押注跟庄家对赌。</p>
+                    </div>
+                </div>
+                <div class="glass-card stagger-item stagger-right" id="guide-2">
+                    <div class="step-num gold-text">02</div>
+                    <div class="step-body">
+                        <h4 data-i18n="guide2_title">抢红包</h4>
+                        <p data-i18n="guide2_desc">系统在群里发 Telegram 红包，庄家和下注的人各抢一个。</p>
+                    </div>
+                </div>
+                <div class="glass-card stagger-item stagger-left" id="guide-3">
+                    <div class="step-num gold-text">03</div>
+                    <div class="step-body">
+                        <h4 data-i18n="guide3_title">比大小</h4>
+                        <p data-i18n="guide3_desc">抢到的金额算出点数和牌型，跟庄家比，大的赢。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Point Calculation -->
+        <section class="content-section" id="point-calc">
+            <div class="section-header">
+                <h3 data-i18n="sec2_title">点数怎么算</h3>
+                <span class="section-sub" data-i18n="sec2_sub">记住这个就够了</span>
+            </div>
+            <p class="section-desc" data-i18n="sec2_desc">把抢到的金额每一位数字加起来，只看个位。</p>
+            <div class="calc-examples">
+                <div class="glass-card calc-card stagger-item stagger-left" id="calc-card-1">
+                    <div class="calc-left">
+                        <div class="calc-amount"><span class="currency">RM</span> 3.42</div>
+                        <div class="calc-formula">3 + 4 + 2 = 9</div>
+                    </div>
+                    <div class="calc-right">
+                        <div class="calc-result countup-target" data-target="9">0<span class="calc-unit" data-i18n="unit_point">点</span></div>
+                    </div>
+                </div>
+                <div class="glass-card calc-card gold-glow stagger-item stagger-right" id="calc-card-2">
+                    <div class="calc-left">
+                        <div class="calc-amount"><span class="currency">RM</span> 2.80</div>
+                        <div class="calc-formula" data-i18n="formula_2">2 + 8 + 0 = 10，个位是 0</div>
+                    </div>
+                    <div class="calc-right">
+                        <div class="calc-result gold-text countup-target" data-target="10">0<span class="calc-unit" data-i18n="unit_point">点</span></div>
+                        <div class="calc-tag gold-text" data-i18n="tag_max">牛牛 · 最大</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hand Rankings -->
+        <section class="content-section" id="hand-rankings">
+            <div class="section-header">
+                <h3 data-i18n="sec3_title">牌型速查</h3>
+                <span class="section-sub" data-i18n="sec3_sub">从大到小</span>
+            </div>
+            <div class="grid-3col">
+                <div class="glass-card rank-card stagger-item stagger-left" id="rank-baoZi">
+                    <div class="rank-name" data-i18n="rank_baozi">豹子</div>
+                    <div class="rank-val gold-text shimmer-text">1.11</div>
+                    <div class="rank-desc" data-i18n="desc_baozi">三位一样</div>
+                    <div class="rank-badge gold-badge pulse-glow"><span class="countup-target" data-target="18">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item" id="rank-manNiu">
+                    <div class="rank-name" data-i18n="rank_manniu">满牛</div>
+                    <div class="rank-val shimmer-text">1.00</div>
+                    <div class="rank-desc" data-i18n="desc_manniu">整数</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="15">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-right" id="rank-fanShun">
+                    <div class="rank-name" data-i18n="rank_fanshun">反顺</div>
+                    <div class="rank-val shimmer-text">2.10</div>
+                    <div class="rank-desc" data-i18n="desc_fanshun">一路变小</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="14">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-left" id="rank-shunZi">
+                    <div class="rank-name" data-i18n="rank_shunzi">顺子</div>
+                    <div class="rank-val shimmer-text">0.12</div>
+                    <div class="rank-desc" data-i18n="desc_shunzi">一路变大</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="13">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item" id="rank-duiZi">
+                    <div class="rank-name" data-i18n="rank_duizi">对子</div>
+                    <div class="rank-val shimmer-text">0.11</div>
+                    <div class="rank-desc" data-i18n="desc_duizi">后两位一样</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="12">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-right" id="rank-jinNiu">
+                    <div class="rank-name" data-i18n="rank_jinniu">金牛</div>
+                    <div class="rank-val shimmer-text">0.20</div>
+                    <div class="rank-desc" data-i18n="desc_jinniu">首尾为 0</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="11">0</span><span data-i18n="times">倍</span></div>
+                </div>
+            </div>
+            <p class="note-text glass-card" data-i18n="note_rank">先比牌型，牌型高的赢，金额大小不管用。都没牌型才看下面的点数。</p>
+        </section>
+
+        <!-- Multipliers -->
+        <section class="content-section" id="multipliers">
+            <div class="section-header">
+                <h3 data-i18n="sec4_title">几点算几倍</h3>
+                <span class="section-sub" data-i18n="sec4_sub">没牌型时</span>
+            </div>
+            <div class="grid-3col">
+                <div class="glass-card rank-card gold-glow stagger-item stagger-left" id="mult-niuniu">
+                    <div class="rank-name gold-text" data-i18n="point_niuniu">牛牛</div>
+                    <div class="rank-val">0.19</div>
+                    <div class="rank-desc">0+1+9=10</div>
+                    <div class="rank-badge gold-badge pulse-glow"><span class="countup-target" data-target="10">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item" id="mult-9">
+                    <div class="rank-name" data-i18n="point_9">9点</div>
+                    <div class="rank-val">0.18</div>
+                    <div class="rank-desc">0+1+8=9</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="9">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-right" id="mult-8">
+                    <div class="rank-name" data-i18n="point_8">8点</div>
+                    <div class="rank-val">0.17</div>
+                    <div class="rank-desc">0+1+7=8</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="8">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-left" id="mult-7">
+                    <div class="rank-name" data-i18n="point_7">7点</div>
+                    <div class="rank-val">0.16</div>
+                    <div class="rank-desc">0+1+6=7</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="7">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item" id="mult-6">
+                    <div class="rank-name" data-i18n="point_6">6点</div>
+                    <div class="rank-val">0.15</div>
+                    <div class="rank-desc">0+1+5=6</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="6">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-right" id="mult-5">
+                    <div class="rank-name" data-i18n="point_5">5点</div>
+                    <div class="rank-val">0.14</div>
+                    <div class="rank-desc">0+1+4=5</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="5">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-left" id="mult-4">
+                    <div class="rank-name" data-i18n="point_4">4点</div>
+                    <div class="rank-val">0.13</div>
+                    <div class="rank-desc">0+1+3=4</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="4">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item" id="mult-3">
+                    <div class="rank-name" data-i18n="point_3">3点</div>
+                    <div class="rank-val">0.21</div>
+                    <div class="rank-desc">0+2+1=3</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="3">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-right" id="mult-2">
+                    <div class="rank-name" data-i18n="point_2">2点</div>
+                    <div class="rank-val">1.10</div>
+                    <div class="rank-desc">1+1+0=2</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="2">0</span><span data-i18n="times">倍</span></div>
+                </div>
+                <div class="glass-card rank-card stagger-item stagger-left" id="mult-1">
+                    <div class="rank-name" data-i18n="point_1">1点</div>
+                    <div class="rank-val">0.29</div>
+                    <div class="rank-desc">0+2+9=11</div>
+                    <div class="rank-badge"><span class="countup-target" data-target="1">0</span><span data-i18n="times">倍</span></div>
+                </div>
+            </div>
+            <p class="note-text glass-card" data-i18n="note_multi" data-i18n-html="true">RM0.98 也算反顺，14 倍。<br>两边都是普通牌时：比点数，大的赢（0.13 是 4 点，输给 0.14 的 5 点）。</p>
+        </section>
+
+        <!-- Detailed Rules -->
+        <section class="content-section" id="detailed-rules">
+            <div class="section-header">
+                <h3 data-i18n="sec5_title">详细规则</h3>
+                <span class="section-sub" data-i18n="sec5_sub">点开看</span>
+            </div>
+            
+            <div class="accordion">
+                <div class="accordion-item glass-card" id="accordion-roles">
+                    <button class="accordion-header">
+                        <span class="acc-title" data-i18n="acc1_title">谁是庄家，谁是闲家</span>
+                        <span class="acc-arrow"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="acc-inner">
+                            <h4 data-i18n="acc1_h1">庄家</h4>
+                            <p data-i18n="acc1_p1">通过竞标庄钱成功上庄的玩家。</p>
+                            <ul><li data-i18n="acc1_l1">承担本局所有闲家的输赢</li><li data-i18n="acc1_l2">庄池 = 本局中标的庄钱</li><li data-i18n="acc1_l3">最大赔付金额不超过庄池</li><li data-i18n="acc1_l4">可按照规则选择续庄</li></ul>
+                            <div class="divider"></div>
+                            <h4 data-i18n="acc1_h2">闲家</h4>
+                            <p data-i18n="acc1_p2">没有成为庄家的其他玩家。</p>
+                            <ul><li data-i18n="acc1_l5">可在下注时间内自由下注</li><li data-i18n="acc1_l6">不下注 = 本局弃权</li><li data-i18n="acc1_l7">与庄家进行一对一比牌</li></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item glass-card" id="accordion-compare">
+                    <button class="accordion-header">
+                        <span class="acc-title" data-i18n="acc2_title">比牌与输赢规则</span>
+                        <span class="acc-arrow"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="acc-inner">
+                            <h4 data-i18n="acc2_h1">牌型比较规则</h4>
+                            <ol><li data-i18n="acc2_l1" data-i18n-html="true"><strong>先比牌型等级：</strong><br>豹子 > 满牛 > 反顺 > 顺子 > 对子 > 金牛 > 普通</li><li data-i18n="acc2_l2" data-i18n-html="true"><strong>牌型相同，再比点数：</strong><br>点数较高者获胜。</li><li data-i18n="acc2_l3" data-i18n-html="true"><strong>等级、点数都相同：</strong><br>比较双方红包金额。</li><li data-i18n="acc2_l4" data-i18n-html="true"><strong>金额完全相同：</strong><br>平局，原路退回。</li></ol>
+                            <div class="divider"></div>
+                            <h4 data-i18n="acc2_h2">结算与抽水</h4>
+                            <ul><li data-i18n="acc2_l5" data-i18n-html="true"><strong>庄家服务费：</strong> 庄池 > 500 → 48；庄池 > 1000 → 88</li><li data-i18n="acc2_l6" data-i18n-html="true"><strong>获胜方：</strong> 收取 5% 水钱</li></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item glass-card" id="accordion-rewards">
+                    <button class="accordion-header">
+                        <span class="acc-title" data-i18n="acc3_title">每日棋牌奖励</span>
+                        <span class="acc-arrow"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="acc-inner">
+                            <p class="mb-12" data-i18n="acc3_p">每日抢到指定牌型组合，可领取额外奖励。每日 00:00 重新计算。</p>
+                            <div class="reward-row"><span class="gold-text" data-i18n="reward_combo">组合奖励</span><span class="reward-amount gold-text">RM 388.88</span></div>
+                            <p class="reward-desc" data-i18n="reward_combo_desc">豹子 ×1 + 顺子 ×1 + 反顺 ×1 + 满牛 ×1</p>
+                            <div class="reward-row"><span data-i18n="reward_baozi">豹子王</span><span class="reward-amount">RM 288.88</span></div>
+                            <div class="reward-row"><span data-i18n="reward_manniu">满牛王</span><span class="reward-amount">RM 288.88</span></div>
+                            <div class="reward-row"><span data-i18n="reward_shunzi">顺子王</span><span class="reward-amount">RM 188.88</span></div>
+                            <div class="reward-row"><span data-i18n="reward_fanshun">反顺王</span><span class="reward-amount">RM 188.88</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item glass-card" id="accordion-special">
+                    <button class="accordion-header">
+                        <span class="acc-title" data-i18n="acc4_title">特殊情况与注意事项</span>
+                        <span class="acc-arrow"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="acc-inner">
+                            <ul><li data-i18n="acc4_l1" data-i18n-html="true"><strong>无人竞标庄钱：</strong> 本局自动取消。</li><li data-i18n="acc4_l2" data-i18n-html="true"><strong>下注阶段无人下注：</strong> 本局自动取消，庄池金额全额退回庄家。</li><li data-i18n="acc4_l3" data-i18n-html="true"><strong>红包链接异常/失效：</strong> 系统自动取消本局，冻结金额原路退回。</li><li data-i18n="acc4_l4" data-i18n-html="true"><strong>抢包超时：</strong> 未抢部分将按照系统规则自动结算或退回。</li></ul>
+                            <div class="warn-box"><p data-i18n="note_warn1">上庄前请确认账户余额足够覆盖庄池。</p><p data-i18n="note_warn2">最终规则请以游戏内实际显示及最新公告为准。</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="app-footer" id="footer">
+            <div class="footer-brand gold-text shimmer-text">69 NiuNiu</div>
+            <p data-i18n="footer_1">看牌型｜抢红包｜比大小</p>
+            <p data-i18n="footer_2">Telegram 红包多人对战</p>
+        </footer>
+    </div>
+    
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+    <script src="animations.js"></script>
+</body>
+</html>
